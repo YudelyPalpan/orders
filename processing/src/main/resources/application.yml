@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://localhost;databaseName=Store
-    username: sa
-    password: Prueba2019
+    url: ${DATABASE_URL:"jdbc:sqlserver://localhost;databaseName=Store"}
+    username: ${DATABASE_USERNAME:sa}
+    password: ${DATABASE_PASSWORD:Prueba2019}
   jpa:
     show-sql: false
     properties:
@@ -18,10 +18,10 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   rabbitmq: 
-    host: localhost
-    port: 5672
-    username: admin
-    password: admin
+    host: ${RABBITMQ_HOSTNAME:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:admin}
+    password: ${RABBITMQ_PASSWORD:admin}
     listener:
       simple: 
         concurrency: 4
@@ -29,8 +29,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${BENEFICIOS_MAIL_USERNAME:alertador.pruebas@gmail.com}
-    password: ${BENEFICIOS_MAIL_PASSWORD:xnxtfmuidfolhitn}
+    username: ${MAIL_USERNAME:alertador.pruebas@gmail.com}
+    password: ${MAIL_PASSWORD:xnxtfmuidfolhitn}
     properties:
       mail:
         smtp:
