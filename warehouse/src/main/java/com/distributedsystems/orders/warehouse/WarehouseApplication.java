@@ -19,6 +19,9 @@ public class WarehouseApplication {
 	@Value("${queue.warehouse.name}")
   private String warehouseQueue;
 
+	@Value("${queue.reservation.name}")
+  private String reservationQueue;
+
 	public static void main(String[] args) {
 		SpringApplication.run(WarehouseApplication.class, args);
 	}
@@ -31,5 +34,10 @@ public class WarehouseApplication {
 	@Bean
 	public Queue warehouseQueue() {
 		return new Queue(warehouseQueue, true);
+	}
+
+	@Bean
+	public Queue reservationQueue() {
+		return new Queue(reservationQueue, true);
 	}
 }

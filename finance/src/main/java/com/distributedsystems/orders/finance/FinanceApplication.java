@@ -13,23 +13,15 @@ import org.springframework.amqp.core.Queue;
 @EnableScheduling
 public class FinanceApplication {
 
-	@Value("${queue.orders.name}")
-  private String ordersQueue;
+  @Value("${queue.finance.name}")
+  private String financeQueue;
 	
-	@Value("${queue.warehouse.name}")
-  private String warehouseQueue;
-
-	public static void main(String[] args) {
-		SpringApplication.run(FinanceApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(FinanceApplication.class, args);
+  }
 	
-	@Bean
-	public Queue ordersQueue() {
-		return new Queue(ordersQueue, true);
-	}
-
-	@Bean
-	public Queue warehouseQueue() {
-		return new Queue(warehouseQueue, true);
-	}
+  @Bean
+  public Queue financeQueue() {
+    return new Queue(financeQueue, true);
+  }
 }

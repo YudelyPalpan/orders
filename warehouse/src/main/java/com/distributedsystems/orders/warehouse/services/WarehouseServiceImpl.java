@@ -11,7 +11,6 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.distributedsystems.orders.warehouse.components.WarehouseConsumer;
@@ -23,58 +22,48 @@ import com.distributedsystems.orders.warehouse.repositories.ProductsRepository;
 
 @Service("warehouseService")
 public class WarehouseServiceImpl implements WarehouseService {
-  private static final Log LOG = LogFactory.getLog(WarehouseConsumer.class);
-  
-  @Autowired
-  private RabbitTemplate rabbitTemplate;
-  
-  @Autowired
-  private OrdersRepository ordersRepository;
-  
-  @Autowired
-  private ProductsRepository productsRepository;
-  
-  @Autowired
-  private Queue warehouseQueue;
+	private static final Log LOG = LogFactory.getLog(WarehouseConsumer.class);
+	private static final String DEFAULT_EXCHANGE = "";
+	@Autowired
+	private RabbitTemplate rabbitTemplate;
 
-  @Value("${queue.warehouse.exchange}")
-  private String warehouseExchange;
+	@Autowired
+	private OrdersRepository ordersRepository;
 
-  @Override
-  public void sendOrderToStockChecking(int orderId) {
-    Message body = new Message(String.valueOf(orderId).getBytes(), new MessageProperties());
-    rabbitTemplate.send(warehouseExchange, warehouseQueue.getName(), body);
-  }
+	@Autowired
+	private ProductsRepository productsRepository;
+
+	@Autowired
+	private Queue reservationQueue;
 
 	@Override
 	public void checkOrderItemsStock(int orderId) {
 		Optional<Order> order = ordersRepository.findById(orderId);
-		
-		if(order.isPresent()) {
+
+		if (order.isPresent()) {
 			List<OrderItem> outStock = productsOutStock(order.get());
-			if(outStock.isEmpty()) {
-				// TODO: Se envie a reserva
-				LOG.info("Reservar");
+			if (outStock.isEmpty()) {
+				LOG.info("[Warehouse] Make reservation for order '" + orderId + "'");
+				Message body = new Message(String.valueOf(orderId).getBytes(), new MessageProperties());
+				rabbitTemplate.send(DEFAULT_EXCHANGE, reservationQueue.getName(), body);
 			} else {
 				// TODO: Enviar correo de los productos fuera de stock
-				LOG.info("Fuera de stock");
+				LOG.info("[Warehouse] Fuera de stock");
 			}
 		}
 	}
-	
-	private List<OrderItem> productsOutStock(Order order) {
-		return order.getItems().stream()
-			.filter(item -> {
-				Optional<Product> warehouseProduct = productsRepository.findById(item.getId());
-				
-				if(!warehouseProduct.isPresent()) {
-					return false;
-				} 
 
-				int stock = warehouseProduct.get().getStock();
-				
-				return stock == 0 || stock < item.getQuantity();
-			})
-			.collect(Collectors.toList());
+	private List<OrderItem> productsOutStock(Order order) {
+		return order.getItems().stream().filter(item -> {
+			Optional<Product> warehouseProduct = productsRepository.findById(item.getId());
+
+			if (!warehouseProduct.isPresent()) {
+				return false;
+			}
+
+			int stock = warehouseProduct.get().getStock();
+
+			return stock == 0 || stock < item.getQuantity();
+		}).collect(Collectors.toList());
 	}
 }

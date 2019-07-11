@@ -1,6 +1,6 @@
 #AMQP RabbitMQ configuration 
 server:
-  port: 8081
+  port: ${PORT:8082}
 spring:
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -8,7 +8,7 @@ spring:
     username: sa
     password: Prueba2019
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -43,4 +43,7 @@ queue:
     exchange: ""
   warehouse:
     name: warehouse
+    exchange: ""
+  reservation:
+    name: reservation
     exchange: ""

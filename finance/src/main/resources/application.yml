@@ -1,6 +1,6 @@
 #AMQP RabbitMQ configuration 
 server:
-  port: 8081
+  port: ${PORT:8085}
 spring:
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -8,7 +8,7 @@ spring:
     username: sa
     password: Prueba2019
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -38,9 +38,6 @@ spring:
           starttls:
             enable: true
 queue:
-  orders:
-    name: orders
-    exchange: ""
-  warehouse:
-    name: warehouse
+  finance:
+    name: finance
     exchange: ""

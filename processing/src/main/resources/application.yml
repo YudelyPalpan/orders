@@ -1,4 +1,6 @@
 #AMQP RabbitMQ configuration 
+server:
+  port: ${PORT:8081}
 spring:
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -6,7 +8,7 @@ spring:
     username: sa
     password: Prueba2019
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true

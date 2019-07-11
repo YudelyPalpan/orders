@@ -39,7 +39,7 @@ public class OrderConsumer {
 		
 		int orderId = Integer.parseInt(new String(payload));
 		
-		LOG.info("Processing order with id '" + orderId + "'");
+		LOG.info("[Processing] Processing order with id '" + orderId + "'");
 		
 		Optional<Order> order = ordersRepository.findById(orderId);
 		
@@ -60,14 +60,14 @@ public class OrderConsumer {
 		Customer customer = order.getCustomer();
 		List<OrderItem> orderItems = order.getItems();
 
-		LOG.info("## Order founded! ##");
-		LOG.info(String.format("* OrderDate = %s", order.getOrderDate()));
-		LOG.info(String.format("* OrderNumber = %s", order.getOrderNumber()));
-		LOG.info(String.format("* Customer = %s %s", customer.getFirstName(), customer.getLastName()));
+		LOG.info("[Processing] ## Order founded! ##");
+		LOG.info(String.format("[Processing] * OrderDate = %s", order.getOrderDate()));
+		LOG.info(String.format("[Processing] * OrderNumber = %s", order.getOrderNumber()));
+		LOG.info(String.format("[Processing] * Customer = %s %s", customer.getFirstName(), customer.getLastName()));
 		
-		LOG.info("* Items = ");
+		LOG.info("[Processing] * Items = ");
 		
-		LOG.info(String.format("| Product Name | Unit Price | Quantity |"));
+		LOG.info(String.format("[Processing] | Product Name | Unit Price | Quantity |"));
 		
 		for(OrderItem orderItem : orderItems) {
 			
@@ -75,10 +75,10 @@ public class OrderConsumer {
 			double unitPrice =  orderItem.getUnitPrice();
 			int quantity = orderItem.getQuantity();
 			
-			LOG.info(String.format("| %s | $%.2f | %d |", productName, unitPrice, quantity));
+			LOG.info(String.format("[Processing] | %s | $%.2f | %d |", productName, unitPrice, quantity));
 		}
 		
-		LOG.info(String.format("* Total amount: $ %.2f", order.getTotalAmount()));
+		LOG.info(String.format("[Processing] * Total amount: $ %.2f", order.getTotalAmount()));
 	}
 	
 	private void sendOrderProcessingEmail(Order order) {

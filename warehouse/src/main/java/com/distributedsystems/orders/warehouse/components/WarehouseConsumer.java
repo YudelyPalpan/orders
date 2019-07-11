@@ -36,7 +36,7 @@ public class WarehouseConsumer {
 	public void checkWarehouseStock(@Payload byte[] payload) {
 		int orderId = Integer.parseInt(new String(payload));
 		
-		LOG.info("Checking order " + orderId);
+		LOG.info("[Warehouse] Checking order " + orderId);
 		
 		warehouseService.checkOrderItemsStock(orderId);
 

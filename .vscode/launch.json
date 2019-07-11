@@ -1,0 +1,34 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-ProcessingApplication<processing>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.distributedsystems.orders.processing.ProcessingApplication",
+      "projectName": "processing",
+      "args": ""
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-WarehouseApplication<warehouse>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.distributedsystems.orders.warehouse.WarehouseApplication",
+      "projectName": "warehouse",
+      "args": ""
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-ReservationApplication<reservation>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.distributedsystems.orders.reservation.ReservationApplication",
+      "projectName": "reservation",
+      "args": ""
+    }
+  ]
+}

@@ -13,23 +13,24 @@ import org.springframework.amqp.core.Queue;
 @EnableScheduling
 public class ReservationApplication {
 
-	@Value("${queue.orders.name}")
-  private String ordersQueue;
+	@Value("${queue.reservation.name}")
+	private String reservationQueue;
 	
-	@Value("${queue.warehouse.name}")
-  private String warehouseQueue;
+	
+	@Value("${queue.billing.name}")
+  private String billingQueue;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ReservationApplication.class, args);
 	}
 	
 	@Bean
-	public Queue ordersQueue() {
-		return new Queue(ordersQueue, true);
+	public Queue reservationQueue() {
+		return new Queue(reservationQueue, true);
 	}
 
 	@Bean
-	public Queue warehouseQueue() {
-		return new Queue(warehouseQueue, true);
+	public Queue billingQueue() {
+		return new Queue(billingQueue, true);
 	}
 }
