@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.distributedsystems.orders</groupId>
-	<artifactId>warehouse</artifactId>
+	<artifactId>finance</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>warehouse</name>
-	<description>Distributed Systems Project Warehouse</description>
+	<name>finance</name>
+	<description>Distributed Systems Project Finance</description>
 
 	<properties>
 		<java.version>1.8</java.version>
