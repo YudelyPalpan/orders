@@ -8,7 +8,7 @@ import org.thymeleaf.context.Context;
 import com.distributedsystems.orders.finance.entities.Order;
 
 @Component
-public class ProcessingOrderMailBuilder  {
+public class InvoiceEmailBuilder  {
 
     @Autowired
     private TemplateEngine templateEngine;
@@ -17,16 +17,16 @@ public class ProcessingOrderMailBuilder  {
     
     private Order order;
 
-    public ProcessingOrderMailBuilder withTemplate(String template) {
+    public InvoiceEmailBuilder withTemplate(String template) {
         this.template = template;
         return this;
     }
     
-    public ProcessingOrderMailBuilder withOrder(Order order) {
+    public InvoiceEmailBuilder withOrder(Order order) {
         this.order = order;
         return this;
     }
-
+    
     public String build() {
         Context context = new Context();
         context.setVariable("order", order);

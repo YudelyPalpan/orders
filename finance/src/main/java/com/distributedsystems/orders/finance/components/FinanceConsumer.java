@@ -1,15 +1,18 @@
 package com.distributedsystems.orders.finance.components;
 
 
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import com.distributedsystems.orders.finance.services.EmailService;
 import com.distributedsystems.orders.finance.services.FinanceService;
+import com.distributedsystems.orders.finance.util.MessageAttachment;
 
 @Component
 public class FinanceConsumer {
@@ -18,35 +21,14 @@ public class FinanceConsumer {
 
 	@Autowired
 	private FinanceService financeService;
-
-	@Autowired
-	private EmailService emailService;
 	
 	@RabbitListener(queues= { "finance" })
-	public void checkWarehouseStock(@Payload byte[] payload) {
-		int orderId = Integer.parseInt(new String(payload));
-		
-		LOG.info("[Finance] Checking order " + orderId);
-		
-		financeService.makeFinanceProcessing(orderId);
+	public void checkWarehouseStock(@Headers Map<String, Object> headers, @Payload byte[] fileBytes) {
+		int orderId = (Integer) headers.get("orderId");
+		String contentType =  (String) headers.get("mimeType");
+		LOG.info("[Finances] Checking order " + orderId);
+		MessageAttachment attachment = new MessageAttachment("Order_" + orderId + ".pdf", fileBytes, contentType);
+		financeService.makeFinanceProcessing(orderId, attachment);
 
 	}
-
-	/*
-	private void sendOrderProcessingEmail(Order order) {
-		
-		Optional<String> email = Optional.of(order.getCustomer().getEmail());
-
-		email.ifPresent(customerEmail -> {
-			String subject = String.format("[Store] La orden de compra '%d' está siendo procesada", order.getId());
-
-			String text = processingOrderMailBuilder
-				.withTemplate("email/order_processing")
-				.withOrder(order)
-				.build();
-			
-			emailService.sendEmail(customerEmail, subject, text);
-		});
-	}
-	*/
 }
