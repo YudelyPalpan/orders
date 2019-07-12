@@ -1,0 +1,52 @@
+version: '3.1'
+services:
+  # Spring Service: Finance[:8085]
+  finance:
+    # depends_on: 
+    #  - mssql       
+    #  - rabbitmq
+    build: ./finance
+    env_file: 
+      - ./environment/spring_services.env
+    ports:
+      - 8085:8080
+  # Spring Service: Billing[:8084]
+  billing:
+    # depends_on: 
+    #   - mssql       
+    #   - rabbitmq
+    build: ./billing
+    env_file: 
+      - ./environment/spring_services.env
+    ports:
+      - 8084:8080
+  # Spring Service: Reservation[:8083]
+  reservation:
+    # depends_on: 
+    #   - mssql       
+    #   - rabbitmq
+    build: ./reservation
+    env_file: 
+      - ./environment/spring_services.env
+    ports:
+      - 8083:8080
+  # Spring Service: Warehouse[:8082]
+  warehouse:
+    # depends_on: 
+    #   - mssql       
+    #   - rabbitmq
+    build: ./warehouse
+    env_file: 
+      - ./environment/spring_services.env
+    ports:
+      - 8082:8080
+  # Spring Service: Processing[:8082]
+  processing:
+    # depends_on: 
+    #   - mssql       
+    #   - rabbitmq
+    build: ./processing
+    env_file: 
+      - ./environment/spring_services.env
+    ports:
+       - 8081:8080

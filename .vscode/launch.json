@@ -29,6 +29,26 @@
       "mainClass": "com.distributedsystems.orders.reservation.ReservationApplication",
       "projectName": "reservation",
       "args": ""
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-FinanceApplication<finance>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.distributedsystems.orders.finance.FinanceApplication",
+      "projectName": "finance",
+      "args": ""
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-BillingApplication<billing>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.distributedsystems.orders.billing.BillingApplication",
+      "projectName": "billing",
+      "args": ""
     }
   ]
 }

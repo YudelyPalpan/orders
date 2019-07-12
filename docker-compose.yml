@@ -2,51 +2,6 @@
 # for Message Oriented Middleware (Rabbit MQ) in a Store Service
 version: '3.1'
 services:
-  # Spring Service: Finance[:8085]
-  finance:
-    depends_on: 
-      - api
-    build: ./finance
-    env_file: 
-      - ./environment/spring_services.env
-    ports:
-      - 8085:8080
-  # Spring Service: Billing[:8084]
-  billing:
-    depends_on: 
-      - api
-    build: ./billing
-    env_file: 
-      - ./environment/spring_services.env
-    ports:
-      - 8084:8080
-  # Spring Service: Reservation[:8083]
-  reservation:
-    depends_on: 
-      - api
-    build: ./reservation
-    env_file: 
-      - ./environment/spring_services.env
-    ports:
-      - 8083:8080
-  # Spring Service: Warehouse[:8082]
-  warehouse:
-    depends_on: 
-      - api
-    build: ./warehouse
-    env_file: 
-      - ./environment/spring_services.env
-    ports:
-      - 8082:8080
-  # Spring Service: Processing[:8082]
-  processing:
-    depends_on: 
-      - api
-    build: ./processing
-    env_file: 
-      - ./environment/spring_services.env
-    ports:
-      - 8081:8080
   # ASP.NET Core 2.2 REST API: Api[:9200]
   api:
     depends_on: 
@@ -58,8 +13,9 @@ services:
   # MS SQL Server 2017
   mssql:
     image: microsoft/mssql-server-linux:2017-latest
-    env_file: 
-      - ./environment/mssql_server.env
+    environment:
+      - SA_PASSWORD=Prueba2019
+      - ACCEPT_EULA=Y
     ports:
       - 1433:1433
     volumes: 
@@ -67,8 +23,11 @@ services:
   # Rabbit MQ
   rabbitmq:
     image: "rabbitmq:3-management"
-    env_file: 
-      - ./environment/rabbitmq.env
+    environment: 
+      - RABBITMQ_ERLANG_COOKIE="SWQOKODSQALRPCLNMEQG"
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+      - RABBITMQ_DEFAULT_VHOST=/
     ports:
       - 15672:15672
       - 5672:5672

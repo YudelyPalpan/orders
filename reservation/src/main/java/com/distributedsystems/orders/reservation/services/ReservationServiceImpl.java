@@ -21,7 +21,7 @@ import com.distributedsystems.orders.reservation.entities.Product;
 import com.distributedsystems.orders.reservation.repositories.OrdersRepository;
 import com.distributedsystems.orders.reservation.repositories.ProductsRepository;
 
-@Service("warehouseService")
+@Service("reservationService")
 public class ReservationServiceImpl implements ReservationService {
   private static final Log LOG = LogFactory.getLog(ReservationConsumer.class);
 	private static final String DEFAULT_EXCHANGE = "";

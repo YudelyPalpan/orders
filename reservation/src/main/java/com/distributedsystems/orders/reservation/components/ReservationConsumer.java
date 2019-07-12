@@ -23,7 +23,7 @@ public class ReservationConsumer {
 	private OrdersRepository ordersRepository;
 
 	@Autowired
-	private ReservationService warehouseService;
+	private ReservationService reservationService;
 
 	@Autowired
 	private EmailService emailService;
@@ -34,7 +34,7 @@ public class ReservationConsumer {
 		
 		LOG.info("[Reservation] Checking order " + orderId);
 		
-		warehouseService.makeOrderReservation(orderId);
+		reservationService.makeOrderReservation(orderId);
 
 	}
 }
