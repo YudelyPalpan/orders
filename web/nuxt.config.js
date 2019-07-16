@@ -1,10 +1,14 @@
 import colors from 'vuetify/es5/util/colors'
+require('dotenv').config()
 
 export default {
   mode: 'spa',
   /*
   ** Headers of the page
   */
+  env: {
+    apiBaseURL: process.env.API_BASE_URL || "http://DESKTOP-G8RV8HA:9200/api"
+  },
   head: {
     titleTemplate: '%s - ' + process.env.npm_package_name,
     title: process.env.npm_package_name || '',
@@ -14,8 +18,7 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-,
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
         href:
@@ -41,6 +44,7 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/dotenv',
     '@nuxtjs/vuetify',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
@@ -51,8 +55,8 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    // baseURL: "https://localhost:44363/api"
-    baseURL: "http://localhost:9200/api"
+    // baseURL: "https://DESKTOP-G8RV8HA:44363/api"
+    baseURL: "http://DESKTOP-G8RV8HA:9200/api"
   },
   /*
   ** vuetify module configuration

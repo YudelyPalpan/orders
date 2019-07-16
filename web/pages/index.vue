@@ -1,14 +1,28 @@
 <template>
   <div>
-    <v-layout
-      row
-      wrap
-      justify-center
-      align-center>
-      <v-flex
-        xs9
-        sm9
-        md9>
+    <v-layout row wrap justify-center align-center>
+      <v-flex xs8>
+        <h1><v-icon large class="mr-2">shopping_cart</v-icon>Nueva orden de compra</h1>
+      </v-flex>
+      <v-flex class="text-sm-right" xs4>
+        <v-btn @click="registerOrder" 
+          :loading="busy"
+          color="primary" 
+          round
+          outline 
+          dark 
+          >
+          <v-icon class="mr-2">add_circle_outline</v-icon>
+          Registrar orden
+        </v-btn>
+      </v-flex>
+    </v-layout>
+    <v-divider class="mb-4"></v-divider>
+    <v-layout row wrap justify-center align-center>
+      <v-flex xs12 mb-3>
+        <h3><v-icon class="mr-2">person</v-icon>Cliente</h3>
+      </v-flex>
+      <v-flex xs9 sm9 md9 pr-3>
         <v-select
           v-model="customerId"
           :items="customers"
@@ -17,11 +31,7 @@
           box
           label="Clientes"></v-select>
       </v-flex>
-      <v-flex
-        xs3
-        sm3
-        md3
-      >
+      <v-flex xs3 sm3 md3>
         <v-text-field
           v-model="orderNumber"
           label="Número de orden"
@@ -30,16 +40,11 @@
         ></v-text-field>
       </v-flex>
     </v-layout>
-    <v-layout
-      row
-      wrap
-      justify-center
-      align-center>
-      <v-flex
-        xs8
-        sm8
-        md8
-      >
+    <v-layout row wrap justify-center align-center>
+      <v-flex xs12 mb-3>
+        <h3><v-icon class="mr-2">shopping_basket</v-icon>Productos</h3>
+      </v-flex>
+      <v-flex xs8 sm8 md8 pr-3>
         <v-select
           v-model="product"
           :items="products"
@@ -50,11 +55,7 @@
           label="Productos"
         ></v-select>
       </v-flex>
-      <v-flex
-        xs2
-        sm2
-        md2
-      >
+      <v-flex xs3 sm3 md3>
         <v-text-field
           v-model="quantity"
           label="Cantidad"
@@ -62,38 +63,28 @@
           box
         ></v-text-field>
       </v-flex>
-      <v-flex
-        align-center
-        xs2
-        sm2
-        md2
-      >
-        <v-btn block color="deep-orange" dark @click="addProductToOrder">
-          Agregar
+      <v-flex xs1 sm1 md1 class="text-sm-right">
+        <v-btn color="primary" outline dark fab @click="addProductToOrder" bottom>
+          <v-icon>add_shopping_cart</v-icon>
         </v-btn>
       </v-flex>
     </v-layout>
     <v-layout row wrap align-center justify-center>
-      <v-data-table
-        :headers="headers"
-        :items="productsTable"
-        class="elevation-1"
-      >
-        <template v-slot:items="props">
-          <td>{{ props.item.id }}</td>
-          <td class="text-xs-right">{{ props.item.productName }}</td>
-          <td class="text-xs-right">{{ props.item.stock }}</td>
-          <td class="text-xs-right">${{ props.item.unitPrice }}</td>
-          <td class="text-xs-right">{{ props.item.quantity }}</td>
-          <td class="text-xs-right">${{ props.item.quantity *  props.item.unitPrice }}</td>
-        </template>
-      </v-data-table>
-    </v-layout>
-    <v-layout row wrap justify-center align-center>
       <v-flex>
-        <v-btn block color="primary" dark @click="registerOrder">
-          Registrar orden
-        </v-btn>
+        <v-data-table
+          :headers="headers"
+          :items="productsTable"
+          class="elevation-1"
+        >
+          <template v-slot:items="props">
+            <td>{{ props.item.id }}</td>
+            <td class="text-xs-right">{{ props.item.productName }}</td>
+            <td class="text-xs-right">{{ props.item.stock }}</td>
+            <td class="text-xs-right">${{ props.item.unitPrice }}</td>
+            <td class="text-xs-right">{{ props.item.quantity }}</td>
+            <td class="text-xs-right">${{ props.item.quantity *  props.item.unitPrice }}</td>
+          </template>
+        </v-data-table>
       </v-flex>
     </v-layout>
   </div>
@@ -104,12 +95,14 @@ import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
 export default {
+  loading: false,
   components: {
     Logo,
     VuetifyLogo
   },
   data(){
     return {
+      busy: false,
       headers: [
         {
           text: 'Id',
@@ -156,6 +149,7 @@ export default {
     },
     async registerOrder(){
       const { customerId, orderNumber, productsTable } = this;
+      this.busy = true;
       const order = await this.$axios.$post('/orders', {
         orderNumber,
         customerId,
@@ -165,6 +159,16 @@ export default {
           quantity: row.quantity
         }))
       });
+      
+      this.resetOrder();
+      this.busy = false;
+    },
+    async resetOrder() {
+      this.customerId = 1,
+      this.orderNumber = "0000000",
+      this.productsTable = [],
+      this.product = {},
+      this.quantity = 1
     }
   }
 }
