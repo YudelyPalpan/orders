@@ -7,10 +7,10 @@
   <title>Processing Email Template</title>
 </head>
 <body>
-  <h2>La orden '<span th:text="${order.id}"></span>' está siendo procesada</h2>
+  <h2>Factura de la Orden '<span th:text="${order.id}"></span>'</h2>
   <p>
     Hola <span th:text="${order.customer.firstName}"></span>! Gracias por comprar en Store.
-    Te comentamos que tu orden está siendo procesada.
+  	Te enviamos tu factura y esperamos que vuelvas a comprar con nosotros.
 
     <table style="margin-bottom: 10px;">
       <thead>
@@ -74,6 +74,7 @@
         </tr>
       </tfoot>
     </table>
+    Saludos.
   </p>
 </body>
 </html>
