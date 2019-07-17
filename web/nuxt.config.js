@@ -1,4 +1,5 @@
-import colors from 'vuetify/es5/util/colors'
+import colors from 'vuetify/es5/util/colors';
+
 require('dotenv').config()
 
 export default {
@@ -7,7 +8,7 @@ export default {
   ** Headers of the page
   */
   env: {
-    apiBaseURL: process.env.API_BASE_URL || "http://DESKTOP-G8RV8HA:9200/api"
+    apiURL: process.env.API_URL || "http://localhost:9200/api"
   },
   head: {
     titleTemplate: '%s - ' + process.env.npm_package_name,
@@ -46,17 +47,17 @@ export default {
   modules: [
     '@nuxtjs/dotenv',
     '@nuxtjs/vuetify',
-    // Doc: https://axios.nuxtjs.org/usage
+    // '@nuxtjs/proxy',
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
+    'vuetify-dialog/nuxt'
   ],
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    // baseURL: "https://DESKTOP-G8RV8HA:44363/api"
-    baseURL: "http://DESKTOP-G8RV8HA:9200/api"
+    baseURL: "http://DESKTOP-G8RV8HA:9200"
   },
   /*
   ** vuetify module configuration
@@ -70,7 +71,7 @@ export default {
       info: colors.teal.lighten1,
       warning: colors.amber.base,
       error: colors.deepOrange.accent4,
-      success: colors.green.accent3
+      success: colors.green.darken1
     }
   },
   /*

@@ -124,8 +124,8 @@ export default {
     }
   },
   async asyncData({ $axios }) {
-    const products = await $axios.$get('/products');
-    const customers = await $axios.$get('/customers');
+    const products = await $axios.$get('/api/products');
+    const customers = await $axios.$get('/api/customers');
     return {
       products,
       customers: customers.map(c => ({...c, fullName: `${c.firstName} ${c.lastName}`}))
@@ -149,19 +149,36 @@ export default {
     },
     async registerOrder(){
       const { customerId, orderNumber, productsTable } = this;
-      this.busy = true;
-      const order = await this.$axios.$post('/orders', {
-        orderNumber,
-        customerId,
-        orderItem: productsTable.map(row => ({ 
-          productId: row.id,
-          unitPrice: row.unitPrice,
-          quantity: row.quantity
-        }))
+      if(productsTable.length !== 0) {
+        this.busy = true;
+        
+        const order = await this.$axios.$post('/api/orders', {
+          orderNumber,
+          customerId,
+          orderItem: productsTable.map(row => ({ 
+            productId: row.id,
+            unitPrice: row.unitPrice,
+            quantity: row.quantity
+          }))
+        });
+        this.busy = false;
+        
+        this.resetOrder();
+    
+        this.showOrderSuccessDialog(order);
+  
+      } else {
+        await this.$dialog.warning({
+          title: 'Orden inválida',
+          text: 'No se agregó ningún producto a la orden'
+        });
+      }
+    },
+    showOrderSuccessDialog({ id }) {
+      return this.$dialog.message.success(
+        `La order '${id}' está siendo procesada, el cliente recibirá un correo dentro de poco.`, {
+        position: 'top-center'
       });
-      
-      this.resetOrder();
-      this.busy = false;
     },
     async resetOrder() {
       this.customerId = 1,
