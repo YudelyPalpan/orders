@@ -48,7 +48,7 @@ public class OrderConsumer {
 			printOrderLog(findOrder);
 			
 			// Sending email
-			//sendOrderProcessingEmail(findOrder);
+			sendOrderProcessingEmail(findOrder);
 
 			// Send to warehouse to stock check
 			warehouseService.sendOrderToStockChecking(findOrder.getId());

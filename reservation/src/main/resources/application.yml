@@ -5,7 +5,7 @@ server:
 spring:
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: ${DATABASE_URL:"jdbc:sqlserver://localhost;databaseName=Store"}
+    url: ${DATABASE_URL:jdbc:sqlserver://localhost;databaseName=Store}
     username: ${DATABASE_USERNAME:sa}
     password: ${DATABASE_PASSWORD:Prueba2019}
   jpa:

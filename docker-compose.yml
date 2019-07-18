@@ -49,6 +49,15 @@ services:
     ports:
       - 8081:8080
     command: ["/wait-for-it.sh", "mssql:1433", "-t", "120", "--", "java", "-jar", "/app.jar"]
+  web:
+    depends_on: 
+      - api
+    build: ./web
+    environment: 
+      - NUXT_PORT=5000
+      - NUXT_HOST=0.0.0.0
+    ports:
+     - 9201:5000
   # ASP.NET Core 2.2 REST API: Api[:9200]
   api:
     depends_on: 
@@ -60,8 +69,9 @@ services:
   # MS SQL Server 2017
   mssql:
     image: microsoft/mssql-server-linux:2017-latest
-    env_file: 
-      - ./environment/mssql_server.env
+    environment:
+      - SA_PASSWORD=Prueba2019
+      - ACCEPT_EULA=Y
     ports:
       - 1433:1433
     volumes: 
@@ -69,8 +79,11 @@ services:
   # Rabbit MQ
   rabbitmq:
     image: "rabbitmq:3-management"
-    env_file: 
-      - ./environment/rabbitmq.env
+    environment: 
+      - RABBITMQ_ERLANG_COOKIE="SWQOKODSQALRPCLNMEQG"
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+      - RABBITMQ_DEFAULT_VHOST=/
     ports:
       - 15672:15672
       - 5672:5672
